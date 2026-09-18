@@ -108,7 +108,7 @@ header, data, missing_rows = check_data(args.input)
 
 
 #step 7
-logger.info(f"Loaded{len(data)} rows")
+logger.info(f"Loaded {len(data)} rows")
 
 # step 8
 if len(data) == 0:
