@@ -10,6 +10,8 @@ import pandas as pd
 from pathlib import Path
 #main.py
 import io
+from src import ProcessConfig
+import pandas as pd
 
 
 app = FastAPI(title="Movie API")
@@ -174,3 +176,28 @@ def get_dataset_shape(dataset_id: int):
 
     logger.info(f"successfully retrieved dataset with id {dataset_id}")
     return {"dataset_id": dataset_id, "rows": data.shape[0], "columns": data.shape[1]}
+
+
+
+
+
+
+
+
+from middleware import log_requests
+
+
+@app.post("/demo/process-config")
+def demo_process_config(config: ProcessConfig):
+    df = pd.DataFrame({"title": ["Movie A", "Movie A", "Movie B", None]})
+    settings = config.model_dump()
+
+    if settings["processing"]["remove_duplicates"]:
+        df = df.drop_duplicates()
+        
+    return {"rows": len(df)}
+
+
+
+# After the existing app = FastAPI(...):
+app.middleware("http")(log_requests)

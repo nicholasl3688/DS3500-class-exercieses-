@@ -17,3 +17,11 @@ class CSVInfo(BaseModel):
     column_names: list[str]
     dataset_id: int
 
+
+from pydantic import BaseModel, Field
+
+class ProcessingSettings(BaseModel):
+    remove_duplicates: bool = True
+
+class ProcessConfig(BaseModel):
+    processing: ProcessingSettings = Field(default_factory=ProcessingSettings)
